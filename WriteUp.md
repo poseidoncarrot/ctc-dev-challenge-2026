@@ -2,15 +2,15 @@
 
 ## 1. What did you build for Part B, and why that?
 
-I built a complete visit tracking system with order item tracking and spending analytics. The app's core purpose is "tracking what Brennen spends eating out," but the existing implementation only listed restaurants with no way to record visits or spending. I chose this because it directly addresses the app's stated purpose - without visit tracking, the app doesn't actually fulfill its function. The addition of order items provides detailed spending insights (what was ordered, not just how much), and the analytics dashboard gives Brennen visibility into his dining patterns over time.
+I built a complete visit-tracking system that records orders and analyzes spending. The app was designed to track how much Brennen spends eating out, but it previously only displayed a list of restaurants without any way to log visits or expenses. I chose to add this feature because it directly supports the app’s main purpose. Users can now record what they ordered, see how much they spent, and use the analytics dashboard to better understand their dining habits over time.
 
 ## 2. What did you decide, and what did you rule out?
 
-I decided to build RESTful API endpoints for visits and order items following the same patterns as the existing restaurant endpoints. I added two new migrations (002 for expanded restaurant data, 003 for order items) rather than editing 001. I chose CSS-only cloud animations for the UI theme to keep dependencies minimal. I ruled out map integration (even though I added lat/long data) to keep scope manageable. I also ruled out user authentication since this is a personal single-user app. A tradeoff I'm unsure about: I made order items optional in the UI (visits can exist without items), which adds flexibility but might lead to incomplete data.
+I built RESTful API endpoints for visits and order items using the same structure as the existing restaurant endpoints. I added two new migrations—one for expanded restaurant data and another for order items—instead of modifying the original migration. For the UI, I used CSS-only cloud animations to keep dependencies minimal. I decided not to include map integration, even though I added latitude and longitude data, so I could keep the project’s scope manageable. I also left out user authentication because the app is intended for a single user. One tradeoff I am still considering is making order items optional: it gives users more flexibility when logging visits, but it could also result in incomplete spending data.
 
 ## 3. Where did you cut corners?
 
-The visit creation form is not yet implemented - users can only view visits, not create them through the UI (though the API supports it). The restaurant detail page shows "Visit History: Coming soon" instead of the actual visit history. I didn't implement the favorite restaurants feature mentioned in the plan. The analytics dashboard uses simple text displays instead of visual charts. With another day, I'd prioritize the visit creation form and connecting restaurant detail pages to their actual visit history.
+The visit creation form is not finished yet, so users can view visits but cannot add new ones through the UI, even though the API already supports it. The restaurant detail page also displays “Visit History: Coming soon” instead of showing actual visit data. I did not have time to implement the planned favorite restaurants feature, and the analytics dashboard currently presents data as text rather than visual charts. With another day, I would prioritize building the visit creation form and connecting each restaurant’s detail page to its visit history.
 
 ---
 

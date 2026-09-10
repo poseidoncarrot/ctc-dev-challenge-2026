@@ -12,14 +12,15 @@ export default async function HomePage() {
       <h2 className="mb-4 text-lg font-medium">Restaurants</h2>
       <ul className="space-y-3">
         {restaurants.map((restaurant) => (
-          <li
+          <Link
             key={restaurant.id}
-            className="rounded-lg border border-gray-200 bg-white/90 backdrop-blur-sm p-4 shadow-sm hover:shadow-md transition-shadow"
+            href={`/restaurants/${restaurant.id}`}
+            className="block rounded-lg border border-gray-200 bg-white/90 backdrop-blur-sm p-4 shadow-sm hover:shadow-md transition-shadow"
           >
             <div className="flex items-baseline justify-between">
-              <Link href={`/restaurants/${restaurant.id}`} className="font-medium hover:text-blue-600">
+              <span className="font-medium hover:text-blue-600">
                 {restaurant.name}
-              </Link>
+              </span>
               <span className="text-sm text-gray-500">
                 {restaurant.rating}★
               </span>
@@ -38,7 +39,7 @@ export default async function HomePage() {
                 <span>{restaurant.phone}</span>
               )}
             </div>
-          </li>
+          </Link>
         ))}
       </ul>
     </div>

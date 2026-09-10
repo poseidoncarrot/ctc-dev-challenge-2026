@@ -97,20 +97,46 @@ curl -i -X POST http://localhost:3000/api/restaurants \
 **Part B** - the equivalent cases for what I built:
 
 ```bash
-# Visit endpoints
+# Visit endpoints - happy paths
 curl http://localhost:3000/api/visits
 curl -X POST http://localhost:3000/api/visits \
   -H 'Content-Type: application/json' \
   -d '{"restaurantId":1,"date":"2026-01-15","amountSpent":50}'
 curl http://localhost:3000/api/visits/1
-curl -i -X DELETE http://localhost:3000/api/visits/99999
-curl -i http://localhost:3000/api/visits/abc
 
-# Order item endpoints
+# Visit endpoints - error cases
+curl -i -X POST http://localhost:3000/api/visits \
+  -H 'Content-Type: application/json' \
+  -d '{"restaurantId":1,"date":"invalid-date","amountSpent":50}'  # 400
+curl -i -X POST http://localhost:3000/api/visits \
+  -H 'Content-Type: application/json' \
+  -d '{"restaurantId":1,"date":"2026-01-15","amountSpent":-10}'  # 400
+curl -i -X POST http://localhost:3000/api/visits \
+  -H 'Content-Type: application/json' \
+  -d '{"restaurantId":99999,"date":"2026-01-15","amountSpent":50}'  # 404
+curl -i http://localhost:3000/api/visits/99999  # 404
+curl -i http://localhost:3000/api/visits/abc  # 404
+curl -i -X DELETE http://localhost:3000/api/visits/99999  # 404
+
+# Order item endpoints - happy paths
 curl http://localhost:3000/api/visits/1/items
 curl -X POST http://localhost:3000/api/visits/1/items \
   -H 'Content-Type: application/json' \
   -d '{"itemName":"Test","price":10,"quantity":1}'
+
+# Order item endpoints - error cases
+curl -i -X POST http://localhost:3000/api/visits/99999/items \
+  -H 'Content-Type: application/json' \
+  -d '{"itemName":"Test","price":10,"quantity":1}'  # 404
+curl -i -X POST http://localhost:3000/api/visits/abc/items \
+  -H 'Content-Type: application/json' \
+  -d '{"itemName":"Test","price":10,"quantity":1}'  # 404
+curl -i -X POST http://localhost:3000/api/visits/1/items \
+  -H 'Content-Type: application/json' \
+  -d '{"itemName":"","price":10,"quantity":1}'  # 400
+curl -i -X POST http://localhost:3000/api/visits/1/items \
+  -H 'Content-Type: application/json' \
+  -d '{"itemName":"Test","price":-10,"quantity":1}'  # 400
 
 # Analytics endpoints
 curl http://localhost:3000/api/stats/spending

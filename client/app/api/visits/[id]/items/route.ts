@@ -17,6 +17,16 @@ export async function GET(_req: Request, { params }: Params) {
       throw new NotFoundError('Visit not found');
     }
 
+    // Check if visit exists first
+    const visitCheck = await pool.query(
+      'SELECT id FROM visits WHERE id = $1',
+      [visitId]
+    );
+
+    if (visitCheck.rows.length === 0) {
+      throw new NotFoundError('Visit not found');
+    }
+
     const { rows } = await pool.query(
       'SELECT * FROM order_items WHERE "visitId" = $1 ORDER BY id',
       [visitId]
@@ -36,6 +46,16 @@ export async function POST(req: Request, { params }: Params) {
   try {
     const visitId = parsePositiveIntId(params.id);
     if (visitId === null) {
+      throw new NotFoundError('Visit not found');
+    }
+
+    // Check if visit exists first
+    const visitCheck = await pool.query(
+      'SELECT id FROM visits WHERE id = $1',
+      [visitId]
+    );
+
+    if (visitCheck.rows.length === 0) {
       throw new NotFoundError('Visit not found');
     }
 

@@ -7,5 +7,61 @@
 }
 
 body {
-  @apply bg-gray-50 text-gray-900;
+  @apply text-gray-900;
+}
+
+/* Cloud animation keyframes */
+@keyframes float-slow {
+  0%, 100% {
+    transform: translateX(0) translateY(0);
+  }
+  50% {
+    transform: translateX(30px) translateY(-20px);
+  }
+}
+
+@keyframes float-medium {
+  0%, 100% {
+    transform: translateX(0) translateY(0);
+  }
+  50% {
+    transform: translateX(-40px) translateY(15px);
+  }
+}
+
+@keyframes float-fast {
+  0%, 100% {
+    transform: translateX(0) translateY(0);
+  }
+  50% {
+    transform: translateX(50px) translateY(-10px);
+  }
+}
+
+/* Animation utilities */
+.animate-float-slow {
+  animation: float-slow 20s ease-in-out infinite;
+}
+
+.animate-float-slow-delayed {
+  animation: float-slow 25s ease-in-out infinite;
+  animation-delay: -5s;
+}
+
+.animate-float-medium {
+  animation: float-medium 15s ease-in-out infinite;
+}
+
+.animate-float-medium-delayed {
+  animation: float-medium 18s ease-in-out infinite;
+  animation-delay: -3s;
+}
+
+.animate-float-fast {
+  animation: float-fast 10s ease-in-out infinite;
+}
+
+.animate-float-fast-delayed {
+  animation: float-fast 12s ease-in-out infinite;
+  animation-delay: -2s;
 }

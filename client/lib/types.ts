@@ -34,6 +34,14 @@ export interface Restaurant {
   rating: number | null;
   /** ISO 8601 timestamp, e.g. "2026-01-01T00:00:00.000Z" */
   createdAt: string;
+  /** Additional fields from migration 002 */
+  latitude: number | null;
+  longitude: number | null;
+  distance_from_home: number | null;
+  price_range: string | null;
+  phone: string | null;
+  website: string | null;
+  hours: string | null;
 }
 
 export interface Visit {
@@ -43,6 +51,16 @@ export interface Visit {
   date: string;
   amountSpent: number | null;
   notes: string | null;
+  /** ISO 8601 timestamp. */
+  createdAt: string;
+}
+
+export interface OrderItem {
+  id: number;
+  visitId: number;
+  itemName: string;
+  price: number;
+  quantity: number;
   /** ISO 8601 timestamp. */
   createdAt: string;
 }
@@ -81,6 +99,13 @@ export function toRestaurant(row: Record<string, unknown>): Restaurant {
     address: (row.address as string | null) ?? null,
     rating: num(row.rating),
     createdAt: isoTimestamp(row.createdAt ?? row.created_at),
+    latitude: num(row.latitude),
+    longitude: num(row.longitude),
+    distance_from_home: num(row.distance_from_home),
+    price_range: (row.price_range as string | null) ?? null,
+    phone: (row.phone as string | null) ?? null,
+    website: (row.website as string | null) ?? null,
+    hours: (row.hours as string | null) ?? null,
   };
 }
 
@@ -92,6 +117,18 @@ export function toVisit(row: Record<string, unknown>): Visit {
     date: dateOnly(row.date),
     amountSpent: num(row.amountSpent ?? row['amountSpent']),
     notes: (row.notes as string | null) ?? null,
+    createdAt: isoTimestamp(row.createdAt ?? row.created_at),
+  };
+}
+
+/** Convert an `order_items` row into the shape the API returns. */
+export function toOrderItem(row: Record<string, unknown>): OrderItem {
+  return {
+    id: Number(row.id),
+    visitId: Number(row.visitId ?? row['visitId']),
+    itemName: String(row.item_name ?? row['itemName']),
+    price: num(row.price) ?? 0,
+    quantity: Number(row.quantity),
     createdAt: isoTimestamp(row.createdAt ?? row.created_at),
   };
 }

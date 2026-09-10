@@ -80,7 +80,7 @@ export function toRestaurant(row: Record<string, unknown>): Restaurant {
     cuisine: (row.cuisine as string | null) ?? null,
     address: (row.address as string | null) ?? null,
     rating: num(row.rating),
-    createdAt: isoTimestamp(row.createdAt),
+    createdAt: isoTimestamp(row.createdAt ?? row.created_at),
   };
 }
 
@@ -88,10 +88,11 @@ export function toRestaurant(row: Record<string, unknown>): Restaurant {
 export function toVisit(row: Record<string, unknown>): Visit {
   return {
     id: Number(row.id),
-    restaurantId: Number(row.restaurantId),
+    restaurantId: Number(row.restaurantId ?? row['restaurantId']),
     date: dateOnly(row.date),
-    amountSpent: num(row.amountSpent),
+    amountSpent: num(row.amountSpent ?? row['amountSpent']),
     notes: (row.notes as string | null) ?? null,
-    createdAt: isoTimestamp(row.createdAt),
+    createdAt: isoTimestamp(row.createdAt ?? row.created_at),
   };
 }
+
